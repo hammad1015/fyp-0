@@ -27,6 +27,9 @@ class EmailReader:
         }
 
     def fetchEmails(self, i:int, j:int) -> List:
+        i = int(i)
+        j = int(j)
+        
         return [
             self.fetchEmail(k)
             for k in range(i,j)

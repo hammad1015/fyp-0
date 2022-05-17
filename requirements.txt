@@ -8,3 +8,4 @@ pandas
 pymongo
 python-imap
 flair
+pytorch-transformers
