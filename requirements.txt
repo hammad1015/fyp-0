@@ -4,8 +4,8 @@ dnspython
 validate_email
 django-widget-tweaks==1.4.9
 djongo==1.3.6
-pandas
-pymongo
-python-imap
-flair
+pandas==1.3.3
+pymongo==4.0.2
+python-imap==2.58
+flair==0.9
 pytorch-transformers
