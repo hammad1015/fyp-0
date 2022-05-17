@@ -1,21 +1,11 @@
 import imaplib
-import credentials
+import emailReader.credentials
 import email
-import json
 
-from typing import Dict
+from typing import Dict, List
 
 
 class EmailReader:
-
-    imap = imaplib.IMAP4_SSL('imap.gmail.com')
-    imap.login(
-        user    = credentials.username, 
-        password= credentials.password
-    )
-    imap.select("INBOX")
-
-    readEmails = 0
     
     def fetchEmail(self, emailId:int) -> Dict[str,str]:
 
@@ -23,6 +13,7 @@ class EmailReader:
         e = email.message_from_bytes(e)
         return {
             '_id'    : emailId,
+            'date'   : e['Date'],
             'from'   : {
                 'name'         : e['From'].split('<')[ 0].strip(),
                 'emailAddress' : e['From'].split('<')[~0][:~0]
@@ -34,18 +25,25 @@ class EmailReader:
                 e.get_payload()
             )))
         }
-    
 
-if __name__ == '__main__':
-    emailReader = EmailReader()
-    n = 10
-    emails = [
-        emailReader.fetchEmail(i)
-        for i in range(n)
-    ]
-    json.dump(
-        emails, 
-        fp= open('email/out.json', 'w'),
-        indent= 4
-    )
-    
+    def fetchEmails(self, i:int, j:int) -> List:
+        return [
+            self.fetchEmail(k)
+            for k in range(i,j)
+        ]
+
+    def getTotalEmails(self):
+        return int(self.imap.select("INBOX")[1][0])
+
+    def login(self):
+        self.imap = imaplib.IMAP4_SSL('imap.gmail.com')
+        self.imap.login(
+            user    = emailReader.credentials.username, 
+            password= emailReader.credentials.password
+        )
+        self.imap.select("INBOX")
+
+    def logout(self):
+        self.imap.close()
+        self.imap.logout()
+

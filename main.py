@@ -1,22 +1,37 @@
 import time
 import pandas as pd
 
-from email.emailReader  import EmailReader
-from model.model        import Model
+from emailReader.emailReader    import EmailReader
+from model.model                import Model
+from DAO.DAO                    import DAO
+
 
 emailReader = EmailReader()
 model       = Model()
+dao         = DAO()
 
 while True:
-    n = 10
-    emails = pd.DataFrame([
-        emailReader.fetchEmail(i)
-        for i in range(n)
-    ])
+    emailReader.login()
 
-    emails['body'  ] = model.clean(emails['body'])
-    emails['labels'] = model.predict(emails)
+    totalEmails  = emailReader.getTotalEmails()
+    nReadEmails  = dao.getNumReadEmails()
+    nTotalEmails = emailReader.getTotalEmails()
+    emails       = pd.DataFrame(emailReader.fetchEmails(nReadEmails, nTotalEmails))
 
-    print(emails)
-    
-    time.sleep(60)
+    if not emails.empty:
+        emails['body'     ] = model.clean(emails['body'])
+
+        entities, relations = model.predict(emails['body'])
+
+        emails['entities' ] = entities
+        emails['relations'] = relations
+
+        dao.insertEmails(emails.to_dict('records'))
+        dao.setNumReadEmails(nTotalEmails)
+        
+        # emails.to_json('out.json', orient= 'records', indent= 4)
+
+    emailReader.logout()
+    time.sleep(5)
+    print('iteration done')
+    # exit()
