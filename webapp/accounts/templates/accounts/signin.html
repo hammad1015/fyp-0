@@ -1,0 +1,61 @@
+{% extends 'accounts/base.html' %}
+
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<!--Sign In--> 
+<div class="form-page header">
+	<div class="overlay"></div>
+		<div class="container form-container col-lg-4 col-md-7 col-sm-7 mx-auto">
+			<h1 class="text-center form-heading">Sign</span> In</h1>
+	
+			<div class="row">
+				{% if messages %}
+					{% for message in messages %}
+					    <p class="alert alert-info">{{ message }}</p>
+					{% endfor %}
+				{% endif %}
+			</div>
+			<form method="POST">
+				{% csrf_token %}
+				
+				{% if email_error %}
+					<div class="alert alert-danger">
+				        {{ email_error }}
+					</div>
+				{% endif %}
+
+				{% if form.non_field_errors %}
+					{% for error in form.non_field_errors %}
+						<div class="alert alert-danger">
+				        	{{ error }}
+						</div>
+					{% endfor %}
+				{% endif %}
+
+
+				{% for field in form %}
+					<div class="form-group">
+						<label class="form-label">
+						{{ field.label }}
+						</label>
+						{{ field|add_class:'form-control' }}
+
+						{% if field.errors %}
+							{% for error in field.errors %}
+						        <div class="alert alert-danger">
+						        	{{ error }}
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				{% endfor %}
+				<br>
+				<div class="col text-center">
+					<button class="btn btn-primary" type="submit">Login</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock content %}

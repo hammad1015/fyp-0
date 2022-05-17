@@ -1,0 +1,45 @@
+{% extends 'accounts/base.html' %}
+
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="header" style="color:white">
+	<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
+		<div class="p-2">
+			{% if messages %}
+				{% for message in messages %}
+				    <p class="alert alert-success">{{ message }}</p>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class="p-2">
+			<h1>Welcome {{user.username}}!</h1>
+		</div>
+		<div class="d-flex flex-row">
+			<!-- <div class="p-2">
+				<select class="form-select">
+				  <option selected>Select Time Period</option>
+				  <option value="1">All</option>
+				  <option value="3">Last Hour</option>
+				  <option value="2">Last 24 Hours</option>
+				  <option value="2">Last 30 Days</option>
+				</select>
+			</div> -->
+			<div class="p-2">
+				<h5>Total Emails:  {{ user.totalemails }}  &nbsp;  |</h5>
+			</div>
+			<div class="p-2">
+				<h5>Downloaded Emails: {{ user.downloads }}</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<a href="{% url 'download_all' %}" class="btn btn-primary" style="border-radius:5px;padding:19px">Download All</a>
+			</div>
+			<div class="col">
+				<a href="{% url 'download_latest' %}" class="btn btn-primary" style="border-radius:5px">Download Latest</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

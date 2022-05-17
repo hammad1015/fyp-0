@@ -1,0 +1,17 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+	<div style="padding-top:5%">
+		<h1>How to Use <span style="color:#FE4701">Mail</span>Ex?</h1>	
+		<h6>Want to use <span style="color:#FE4701">Mail</span>Ex, but don't know where to start?</h6>
+		<p>Don't worry. Follow these simple steps to get started:</p>
+		<div class="col-8">
+		<ol class="list-group">
+			<li class="list-group-item list-group-item-secondary">Register on our Website. <a href="{% url 'signup' %}">Here.</a></li>
+			<li class="list-group-item list-group-item-secondary">Once registered, <a href="{% url 'signin' %}">login</a> to the website using your registered email and password.</li>
+			<li class="list-group-item list-group-item-secondary">Enable automatic forwarding of your emails to the MailEx email : MailEx@gmail.com</li>
+			<li class="list-group-item list-group-item-secondary">Select the time and you can chose if you want to download or preview the processed email</li>
+		</ol>	
+	</div>
+	</div>
+{% endblock content %}
