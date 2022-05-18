@@ -1,14 +1,19 @@
 import pymongo
 
 class DAO:
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
 
-    db = client['mailex']
-    # users = db['users']
-    emails      = db['emails']
-    readEmails  = db['readEmails']
+    def __init__(self) -> None:
 
-    # emails.drop()
+        client = pymongo.MongoClient("mongodb://localhost:27017/")
+
+        self.db = client['mailex']
+        # users = db['users']
+        
+        self.emails     = self.db['emails']
+        self.readEmails = self.db['readEmails']
+
+        self.emails.drop()
+        self.setNumReadEmails(0)
 
     def getNumReadEmails(self):
         return self.readEmails.find_one()['n']
@@ -24,3 +29,4 @@ class DAO:
         
     def insertEmails(self, emails:list):
         self.emails.insert_many(emails)
+
