@@ -14,19 +14,19 @@ class DAO:
 
         # self.emails.drop()
         # self.readEmails.drop()
-        # self.setNumReadEmails(0)
+        # self.readEmails.insert_one({
+        #     '_id': 0,
+        #     'n'  : 0
+        # })
 
     def getNumReadEmails(self):
         return self.readEmails.find_one()['n']
 
     def setNumReadEmails(self, n:int):
         self.readEmails.update_one(
-            { 
-                '_id': 0 
-            },{ 
-                '$set': { 
-                    'n': n 
-            }})
+            {'_id': 0},
+            {'$set': {'n': n}}
+        )
         
     def insertEmails(self, emails:list):
         self.emails.insert_many(emails)
