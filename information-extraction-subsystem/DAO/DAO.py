@@ -12,8 +12,9 @@ class DAO:
         self.emails     = self.db['emails']
         self.readEmails = self.db['readEmails']
 
-        self.emails.drop()
-        self.setNumReadEmails(0)
+        # self.emails.drop()
+        # self.readEmails.drop()
+        # self.setNumReadEmails(0)
 
     def getNumReadEmails(self):
         return self.readEmails.find_one()['n']

@@ -14,7 +14,7 @@ class EmailReader:
         return {
             '_id'    : emailId,
             'date'   : e['Date'],
-            'from'   : {
+            'from_'   : {
                 'name'         : e['From'].split('<')[ 0].strip(),
                 'emailAddress' : e['From'].split('<')[~0][:~0]
             },
