@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'mailex.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'emails',
+        'NAME': 'mailex',
         'HOST': 'mongodb://localhost:27017'
     }
 }
