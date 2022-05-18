@@ -2,12 +2,12 @@
     {
         "_id":0,
         "date":"Wed, 11 May 2022 07:52:35 -0700",
-        "from":{
+        "from_user":{
             "name":"Google Community Team",
             "emailAddress":"googlecommunityteam-noreply@google.com"
         },
         "subject":"Mailex, finish setting up your new Google Account",
-        "body":" Hi Mailex, Welcome to Google. Your new account comes with access to Google products, apps, and services. Here are a few tips to get you started. Get the most out of your Google Account We'll send you personalized tips, news and recommendations from Google. Yes, keep me updated Stay in the know with the Google app Find quick answers, explore your interests, and stay up to date. Try it More from Google Discover the latest apps from Google. For Android For iOS Confirm your options are right for you Review and change your privacy and security options to make Google work better for you. Confirm Find answers Visit the Help Center to learn all about your new Google Account. Replies to this email aren't monitored. If you have a question about your new account, the Help Center likely has the answer you're looking for. Google LLC 1600 Amphitheatre Parkway, Mountain View, CA 94043 This email was sent to you because you created a Google Account. ",
+        "body":" Hi Mailex, Welcome to Google. Your new account comes with access to Google products, apps, and services. Here are a few tips to get you started. Get the most out of your Google Account We'll send you personalized tips, news and recommendations from_user Google. Yes, keep me updated Stay in the know with the Google app Find quick answers, explore your interests, and stay up to date. Try it More from_user Google Discover the latest apps from Google. For Android For iOS Confirm your options are right for you Review and change your privacy and security options to make Google work better for you. Confirm Find answers Visit the Help Center to learn all about your new Google Account. Replies to this email aren't monitored. If you have a question about your new account, the Help Center likely has the answer you're looking for. Google LLC 1600 Amphitheatre Parkway, Mountain View, CA 94043 This email was sent to you because you created a Google Account. ",
         "entities":[
             {
                 "text":"Mailex",
@@ -265,7 +265,7 @@
     {
         "_id":1,
         "date":"Wed, 11 May 2022 14:55:04 GMT",
-        "from":{
+        "from_user":{
             "name":"Google",
             "emailAddress":"no-reply@accounts.google.com"
         },
@@ -521,7 +521,7 @@
     {
         "_id":2,
         "date":"Thu, 12 May 2022 20:47:57 -0700 (PDT)",
-        "from":{
+        "from_user":{
             "name":"Mail Delivery Subsystem",
             "emailAddress":"mailer-daemon@googlemail.com"
         },
@@ -537,7 +537,7 @@
     {
         "_id":3,
         "date":"Thu, 12 May 2022 20:49:52 -0700 (PDT)",
-        "from":{
+        "from_user":{
             "name":"Mail Delivery Subsystem",
             "emailAddress":"mailer-daemon@googlemail.com"
         },
@@ -553,7 +553,7 @@
     {
         "_id":4,
         "date":"Thu, 12 May 2022 20:49:59 -0700 (PDT)",
-        "from":{
+        "from_user":{
             "name":"Mail Delivery Subsystem",
             "emailAddress":"mailer-daemon@googlemail.com"
         },
@@ -569,7 +569,7 @@
     {
         "_id":5,
         "date":"Thu, 12 May 2022 20:50:23 -0700 (PDT)",
-        "from":{
+        "from_user":{
             "name":"Mail Delivery Subsystem",
             "emailAddress":"mailer-daemon@googlemail.com"
         },

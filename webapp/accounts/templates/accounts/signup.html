@@ -6,9 +6,10 @@
 <!--Register--> 
 <div class="form-page header">
 	<div class="overlay"></div>
+	<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
 		<div class="container form-container col-lg-4 col-md-7 col-sm-7 mx-auto">
-			<h1 class="text-center">Register</h1>
-			<br>
+			<h1 class="text-center form-heading">Register</h1>
+
 			<form method="POST">
 				{% csrf_token %}
 
@@ -43,6 +44,9 @@
 					</div>
 				{% endfor %}
 				<br>
+				<div class="col text-center">
+					<a href="{% url 'account_verification' %}">Already Registered? Verify Your Account</a>
+				</div>
 				<div class="col text-center">
 					<button class="btn btn-primary" type="submit">Register</button>
 				</div>

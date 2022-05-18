@@ -162,13 +162,13 @@ sup {
 }
 
 a {
-  color: #f06161;
+  color: #FE4701;
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #e91b1b;
+  color: rgba(253, 93, 147, 0.9);
   text-decoration: none;
 }
 
@@ -2169,8 +2169,8 @@ pre code {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
-  background-color: rgba(0, 0, 0, 0.01);
+  color: black;
+  background-color: #E4E9EA;
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
@@ -2192,7 +2192,7 @@ pre code {
 
 .form-control:focus {
   color: #495057;
-  background-color: rgba(0, 0, 0, 0.01);
+  background-color: ;
   border-color: #fbd5d5;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(240, 97, 97, 0.25);
@@ -2229,8 +2229,8 @@ pre code {
 }
 
 select.form-control:focus::-ms-value {
-  color: #495057;
-  background-color: rgba(0, 0, 0, 0.01);
+  color: black;
+  background-color: #E4E9EA;;
 }
 
 .form-control-file,
@@ -11735,8 +11735,11 @@ pre .code {
 }
 
 .form-page {
-  height:100vh;
+  height:100%;
   color:white;
   background-image:url(../imgs/home-bg.avif);
+  background-repeat:no-repeat;
+  background-size:cover;
+
 }
 

@@ -7,9 +7,11 @@ from django.conf                 import settings
 from django.http 		         import HttpResponse
 from django.contrib		         import messages
 from django.contrib.auth         import login, authenticate, logout
-from django.contrib.auth.mixins  import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 from django.core.mail            import send_mail
+from django.core.paginator       import Paginator 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins  import LoginRequiredMixin
+
 from validate_email import validate_email
 
 import random
@@ -17,7 +19,7 @@ import string
 import json
 
 from .forms import SignUpForm, SignInForm, AccountVerificationForm
-from .models import User, ProcessedEmail
+from .models import User, Emails
 
 
 # user resgitration view
@@ -37,26 +39,26 @@ class SignUpView(generic.View):
 		if form.is_valid():
 			email    = form.cleaned_data['email']
 			
-			is_valid_email = validate_email(email_address=email)
-			if not is_valid_email:
-				email_error = 'Please enter a valid email' 
-				return render(request, self.template_name, {'form':form, 'email_error':email_error})
+			# is_valid_email = validate_email(email_address=email)
+			# if not is_valid_email:
+			# 	email_error = 'Please enter a valid email' 
+			# 	return render(request, self.template_name, {'form':form, 'email_error':email_error})
 
-			else:
-				user = form.save()
-				user.is_active = False
+			# else:
+			user = form.save()
+			user.is_active = False
 
-				user.code = ''.join(random.sample(string.ascii_letters+string.digits, 6))
-				user.save()
+			user.code = ''.join(random.sample(string.ascii_letters+string.digits, 6))
+			user.save()
 
-				subject        = 'Verify your MailEx account'
-				message        = f'Here is your 6-digit verification code: {user.code}'
-				email_from     = settings.EMAIL_HOST_USER
-				recipient_list = [email]
+			subject        = 'Verify your MailEx account'
+			message        = f'Here is your 6-digit verification code: {user.code}'
+			email_from     = settings.EMAIL_HOST_USER
+			recipient_list = [email]
 
-				send_mail(subject, message, email_from, recipient_list)
+			send_mail(subject, message, email_from, recipient_list)
 
-				return redirect('account_verification')
+			return redirect('account_verification')
 		
 		else:
 			return render(request, self.template_name, {'form':form})
@@ -112,10 +114,6 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
 	redirect_field_name = None
 
 	def get(self, request):
-		if request.user is None:
-			messages.warning(request, "You are not logged in!")
-			return redirect('home')
-
 		return render(request, self.template_name)
 
 
@@ -131,20 +129,38 @@ class AccountVerification(generic.View):
 
 		if form.is_valid():
 			code = form.cleaned_data.get('verification_code')
+
 			try:
 				user = User.objects.get(code=code)
+
+				# activate user account
 				user.is_active = True
 
 				# set total number of emails
-				totalemails = len(ProcessedEmail.objects.filter(from_user={'address': request.user.email}))
-				user.emails = totalemails if totalemails is not None else 0
+				totalemails      = len(Emails.objects.filter(from_user={"emailAddress":user.email}))
+				user.totalemails = totalemails if totalemails is not None else 0
 				user.save()
+
+				messages.success(request, 'You have successfully verified your account')
 				return redirect('signin')
 
 			except Exception as DoesNotExist:
-				invalid_code = 'Please enter a valid code' 
-				return render(request, self.template_name, {'form':self.form_class, 'msg':invalid_code})
-				
+				messages.warning(request, 'Please enter a valid code')
+				return render(request, self.template_name, {'form':self.form_class})
+											
+
+def email_preview(request):
+	
+	if not request.user.is_authenticated:
+		messages.warning(request, "You are not logged in!")
+		return redirect('home')
+
+	emails = Emails.objects.filter(from_user={'emailAddress':request.user.email})
+	email_paginator = Paginator(emails, 8)
+	page_number = request.GET.get('page')
+	page_obj = email_paginator.get_page(page_number)
+	return render(request=request, template_name="accounts/email_preview.html", context={'emails':page_obj})
+
 
 def download_all_emails(request):
 
@@ -152,7 +168,7 @@ def download_all_emails(request):
 		messages.warning(request, "You are not logged in!")
 		return redirect('home')
 
-	processed_emails = ProcessedEmail.objects.filter(from_user={'address': request.user.email})			
+	processed_emails = Emails.objects.filter(from_user={'emailAddress': request.user.email})			
 
 	json_output = []
 	for email in processed_emails:
@@ -168,9 +184,10 @@ def download_all_emails(request):
 	response = HttpResponse(json.dumps({"data":json_output}), content_type='application/json')
 	response['Content-Disposition'] = f'attachment; filename={filename}'
 	
-	request.user.downloads   = request.user.downloads   + len(json_output)
-	request.user.totalemails = len(processed_emails) if len(processed_emails) is not None else 0
-	
+	if request.user.totalemails > request.user.downloads:
+		request.user.downloads   = request.user.downloads   + len(json_output)
+		request.user.totalemails = len(processed_emails) if len(processed_emails) is not None else 0
+		
 	request.user.save()
 	return response
 
@@ -181,13 +198,16 @@ def download_latest_emails(request):
 		messages.warning(request, "You are not logged in!")
 		return redirect('home')
 
-	processed_emails = ProcessedEmail.objects.filter(from_user={'address': request.user.email})		
+	processed_emails = Emails.objects.filter(from_user={'emailAddress': request.user.email})		
 
 	totalemails      = len(processed_emails)	
-	latest_emails    = totalemails - request.user.downloads
+	latest_emails    = totalemails - request.user.downloads - 1
+
+	if totalemails == request.user.downloads:
+		return redirect('download_all')
 
 	json_output = []
-	for email in processed_emails[-latest_emails:]:
+	for email in processed_emails[latest_emails:]:
 		json_output.append({
 			"id"      : email.id,
 			"from"    : email.from_user,
@@ -200,8 +220,9 @@ def download_latest_emails(request):
 	response = HttpResponse(json.dumps({"data":json_output}), content_type='application/json')
 	response['Content-Disposition'] = f'attachment; filename={filename}'
 	
-	request.user.downloads   = request.user.downloads   + len(json_output)
-	request.user.totalemails = len(processed_emails) if len(processed_emails) is not None else 0
-	
+	if totalemails > latest_emails:
+		request.user.downloads   = request.user.downloads   + len(json_output)
+		request.user.totalemails = len(processed_emails) if len(processed_emails) is not None else 0
+		
 	request.user.save()
 	return response

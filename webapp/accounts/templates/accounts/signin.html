@@ -6,16 +6,15 @@
 <!--Sign In--> 
 <div class="form-page header">
 	<div class="overlay"></div>
+	<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
 		<div class="container form-container col-lg-4 col-md-7 col-sm-7 mx-auto">
 			<h1 class="text-center form-heading">Sign</span> In</h1>
 	
-			<div class="row">
-				{% if messages %}
-					{% for message in messages %}
-					    <p class="alert alert-info">{{ message }}</p>
-					{% endfor %}
-				{% endif %}
-			</div>
+			{% if messages %}
+				{% for message in messages %}
+				    <p class="alert alert-info" style="color:white">{{ message }}</p>
+				{% endfor %}
+			{% endif %}
 			<form method="POST">
 				{% csrf_token %}
 				
@@ -43,7 +42,7 @@
 
 						{% if field.errors %}
 							{% for error in field.errors %}
-						        <div class="alert alert-danger">
+						        <div class="alert alert-danger" style="color:white">
 						        	{{ error }}
 								</div>
 							{% endfor %}

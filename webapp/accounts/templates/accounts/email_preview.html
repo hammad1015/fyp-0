@@ -1,0 +1,32 @@
+{% extends 'accounts/base.html' %}
+
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="header" style="color:white">
+	<div class="vh-100 d-flex flex-column justify-content-center">
+		<div class="p-4">
+				{% for email in emails %}
+				<div class="row">
+					<div class="col-6">
+						<h6 onClick="getId()" id="{{forloop.counter}}">{{ email.subject }}</h6>
+					</div>
+					<div class="col-6" id="email_body_{{forloop.counter}}" style="display:none">
+						<p style="color:white">{{ email.body }}</p>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	
+	function getId(){
+		console.log("why");
+		var id = "email_body_" + this.event.target.id;
+		document.getElementById(id).style.display = 'block';
+	}
+
+</script>
+{% endblock %}
