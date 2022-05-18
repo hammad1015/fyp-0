@@ -12,9 +12,9 @@ class EmailReader:
         e = self.imap.fetch(f'{emailId+1}', "(RFC822)")[1][0][1]
         e = email.message_from_bytes(e)
         return {
-            '_id'    : emailId,
-            'date'   : e['Date'],
-            'from_'   : {
+            '_id'       : emailId,
+            'date'      : e['Date'],
+            'from_user' : {
                 'name'         : e['From'].split('<')[ 0].strip(),
                 'emailAddress' : e['From'].split('<')[~0][:~0]
             },
