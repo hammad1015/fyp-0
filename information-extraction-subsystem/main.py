@@ -18,6 +18,8 @@ while True:
     nTotalEmails = emailReader.getTotalEmails()
     emails       = pd.DataFrame(emailReader.fetchEmails(nReadEmails, nTotalEmails))
 
+    print(f'total: {nTotalEmails} read: {nReadEmails}')
+
     if not emails.empty:
         emails['body'     ] = model.clean(emails['body'])
 
