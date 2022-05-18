@@ -20,7 +20,7 @@ class DAO:
         # })
 
     def getNumReadEmails(self):
-        return self.readEmails.find_one()['n']
+        return self.readEmails.find_one(0)['n']
 
     def setNumReadEmails(self, n:int):
         self.readEmails.update_one(
