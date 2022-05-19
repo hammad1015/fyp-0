@@ -39,26 +39,26 @@ class SignUpView(generic.View):
 		if form.is_valid():
 			email    = form.cleaned_data['email']
 			
-			# is_valid_email = validate_email(email_address=email)
-			# if not is_valid_email:
-			# 	email_error = 'Please enter a valid email' 
-			# 	return render(request, self.template_name, {'form':form, 'email_error':email_error})
+			is_valid_email = validate_email(email_address=email)
+			if not is_valid_email:
+				email_error = 'Please enter a valid email' 
+				return render(request, self.template_name, {'form':form, 'email_error':email_error})
 
-			# else:
-			user = form.save()
-			user.is_active = False
+			else:
+				user = form.save()
+				user.is_active = False
 
-			user.code = ''.join(random.sample(string.ascii_letters+string.digits, 6))
-			user.save()
+				user.code = ''.join(random.sample(string.ascii_letters+string.digits, 6))
+				user.save()
 
-			subject        = 'Verify your MailEx account'
-			message        = f'Here is your 6-digit verification code: {user.code}'
-			email_from     = settings.EMAIL_HOST_USER
-			recipient_list = [email]
+				subject        = 'Verify your MailEx account'
+				message        = f'Here is your 6-digit verification code: {user.code}'
+				email_from     = settings.EMAIL_HOST_USER
+				recipient_list = [email]
 
-			send_mail(subject, message, email_from, recipient_list)
+				send_mail(subject, message, email_from, recipient_list)
 
-			return redirect('account_verification')
+				return redirect('account_verification')
 		
 		else:
 			return render(request, self.template_name, {'form':form})
@@ -114,6 +114,9 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
 	redirect_field_name = None
 
 	def get(self, request):
+		totalemails = len(Emails.objects.filter(from_user={"emailAddress":request.user.email}))
+		request.user.totalemails = totalemails
+		request.user.save()
 		return render(request, self.template_name)
 
 
@@ -173,11 +176,12 @@ def download_all_emails(request):
 	json_output = []
 	for email in processed_emails:
 		json_output.append({
-			"id"      : email.id,
-			"from"    : email.from_user,
-			"subject" : email.subject,
-			"body"    : email.body,
-			"entities": email.entities
+			"id"        : email.id,
+			"from"      : email.from_user,
+			"subject"   : email.subject,
+			"body"      : email.body,
+			"entities"  : email.entities,
+			"relations" : email.relations
 			})
 
 	filename = request.user.username + "_emails.json"
@@ -209,11 +213,12 @@ def download_latest_emails(request):
 	json_output = []
 	for email in processed_emails[latest_emails:]:
 		json_output.append({
-			"id"      : email.id,
-			"from"    : email.from_user,
-			"subject" : email.subject,
-			"body"    : email.body,
-			"entities": email.entities
+			"id"        : email.id,
+			"from"      : email.from_user,
+			"subject"   : email.subject,
+			"body"      : email.body,
+			"entities"  : email.entities,
+			"relations" : email.relations
 			})
 
 	filename = request.user.username + "_emails.json"

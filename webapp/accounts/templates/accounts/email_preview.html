@@ -6,26 +6,81 @@
 <div class="header" style="color:white">
 	<div class="vh-100 d-flex flex-column justify-content-center">
 		<div class="p-4">
+			<div class="col-6">
 				{% for email in emails %}
 				<div class="row">
 					<div class="col-6">
 						<h6 onClick="getId()" id="{{forloop.counter}}">{{ email.subject }}</h6>
 					</div>
-					<div class="col-6" id="email_body_{{forloop.counter}}" style="display:none">
-						<p style="color:white">{{ email.body }}</p>
-					</div>
 				</div>
 				{% endfor %}
 			</div>
+			<div class="col-6">
+				<div id="email-body">
+				</div>
+			</div>
 		</div>
+		<!-- <span style="background-color:red">ORG</span>       
+		<span style="background-color:orange">CARDINAL</span>
+		<span style="background-color:deeppink">DATE,</span>
+		<span style="background-color:green">"EVENT"      </span>
+		<span style="background-color:blue">"FAC"        </span>
+		<span style="background-color:gold">"GPE"	     </span>
+		<span style="background-color:aqua">"LANGUAGE"   </span>
+		<span style="background-color:#993333">"LAW"        </span>
+		<span style="background-color:#660066">"LOC"	     </span>
+		<span style="background-color:magenta">"MONEY"	     </span>
+		<span style="background-color:#669999">"NORP"       </span>
+		<span style="background-color:navy">"ORDINAL"     </span>
+		<span style="background-color:Lime">"PERCENT"     </span>
+		<span style="background-color:black">"PERSON"      </span>
+		<span style="background-color:#ff80d5">"PRODUCT"     </span>
+		<span style="background-color:red">"QUANTITY"    </span>
+		<span style="background-color:red">"TIME"        </span>
+		<span style="background-color:red">"WORK_OF_ART" </span> -->
 	</div>
 </div>
 <script type="text/javascript">
 	
+	var labels = {
+		"ORG"         : "red",
+		"CARDINAL"    : "orange",
+		"DATE"        : "deeppink",
+		"EVENT"       : "green",
+		"FAC"         : "blue",
+		"GPE"	      : "gold",
+		"LANGUAGE"    : "aqua",
+		"LAW"         : "#993333",
+		"LOC"	      : "#660066",
+		"MONEY"	      : "magenta",
+		"NORP"        : "#669999",
+		"ORDINAL"     : "navy",
+		"PERCENT"     : "Lime",
+		"PERSON"      : "black",
+		"PRODUCT"     : "#ff80d5",
+		"QUANTITY"    : "red",
+		"TIME"        : "red",
+		"WORK_OF_ART" : "red"
+	}
+
 	function getId(){
-		console.log("why");
-		var id = "email_body_" + this.event.target.id;
-		document.getElementById(id).style.display = 'block';
+
+		var id = this.event.target.id;
+
+		{% for email in emails %}			
+			if("{{ email.subject }}" == $("#" + id).html()){
+			var html = "";
+				var email_body = "{{email.body}}";
+				{% for entity in email.entities %}
+					var start_index = {{entity.start_pos}};
+					var end_index   = {{entity.end_pos}};
+					var recognized_entity = email_body.slice(start_index, end_index);
+					
+					email_body = email_body.replaceAll("{{entity.text}}", "<span style='background-color:"+ labels["{{entity.labels.value}}"] + "'>{{entity.text}}</span>");
+				{% endfor %}
+			}
+			$("#email-body").html(email_body);
+		{% endfor %}
 	}
 
 </script>
