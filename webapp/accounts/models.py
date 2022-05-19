@@ -4,10 +4,12 @@ from django                     import forms
 
 
 class User(AbstractUser):
+	_id         = models.ObjectIdField()
 	code        = models.CharField('code', max_length=6, null=True)
 	email       = models.EmailField('email', unique=True)
 	downloads   = models.IntegerField('downloads', default=0)
 	totalemails = models.IntegerField('totalemails', default=0)
+
 
 class Label(models.Model):
 	value      = models.TextField()
