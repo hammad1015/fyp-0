@@ -10,6 +10,9 @@ class User(AbstractUser):
 	downloads   = models.IntegerField('downloads', default=0)
 	totalemails = models.IntegerField('totalemails', default=0)
 
+	class Meta:
+		db_table = "user"
+
 
 class Label(models.Model):
 	value      = models.TextField()
@@ -77,6 +80,9 @@ class Emails(models.Model):
 	entities  = models.ArrayField(model_container=Entity, model_form_class=EntityForm)					
 	relations = models.ArrayField(model_container=Relation, model_form_class=RelationForm)
 	
+	class Meta:
+		db_table = "emails"
+
 	def __str__(self):
 		return self.subject
 		
