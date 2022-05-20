@@ -11743,3 +11743,7 @@ pre .code {
 
 }
 
+#email-body {
+  overflow-y:scroll;
+  height:300px;
+}

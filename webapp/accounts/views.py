@@ -159,7 +159,7 @@ def email_preview(request):
 		return redirect('home')
 
 	emails = Emails.objects.filter(from_user={'emailAddress':request.user.email})
-	email_paginator = Paginator(emails, 1)
+	email_paginator = Paginator(emails, 8)
 	page_number = request.GET.get('page')
 	page_obj = email_paginator.get_page(page_number)
 	return render(request=request, template_name="accounts/email_preview.html", context={'emails':page_obj})
