@@ -185,7 +185,7 @@ def download_all_emails(request):
 			})
 
 	filename = request.user.username + "_emails.json"
-	response = HttpResponse(json.dumps({"data":json_output}), content_type='application/json')
+	response = HttpResponse(json.dumps({"data":json_output}, indent=4), content_type='application/json')
 	response['Content-Disposition'] = f'attachment; filename={filename}'
 	
 
@@ -222,7 +222,7 @@ def download_latest_emails(request):
 			})
 
 	filename = request.user.username + "_emails.json"
-	response = HttpResponse(json.dumps({"data":json_output}), content_type='application/json')
+	response = HttpResponse(json.dumps({"data":json_output}, indent=4), content_type='application/json')
 	response['Content-Disposition'] = f'attachment; filename={filename}'
 	
 	if totalemails > latest_emails:
