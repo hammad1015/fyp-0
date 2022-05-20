@@ -3,23 +3,46 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block content %}
-<div class="header" style="color:white">
-	<div class="vh-100 d-flex flex-column justify-content-center">
-		<div class="p-4">
-			<div class="col-6">
+
+<section class="section header" style="color:white">
+	<div class="overlay"></div>
+	<div class="vh-100 row align-items-center">
+			<div class="col-6 align-self-center">
 				{% for email in emails %}
-				<div class="row">
-					<div class="col-6">
-						<h6 onClick="getId()" id="{{forloop.counter}}">{{ email.subject }}</h6>
-					</div>
+				<div class="row justify-content-end">
+					<h5><li onClick="getId()" id="{{forloop.counter}}">{{ email.subject }}</li></h5>
 				</div>
 				{% endfor %}
 			</div>
-			<div class="col-6">
+			<div class="col-4 align-self-center">
 				<div id="email-body">
 				</div>
 			</div>
 		</div>
+		<div class="row align-items-center">
+			<div class="col align-self-center">
+				<div class="pagination justify-content-center">
+	            <span class="step-links">
+	              {% if emails.has_previous %}
+	                  <a href="?page=1">&laquo; first | </a>
+	                  <a href="?page={{ emails.previous_page_number }}">previous</a>
+	              {% endif %}
+
+	                <span class="current">
+	                    Page {{ emails.number }} of {{ emails.paginator.num_pages }}
+	                </span>
+
+	              {% if emails.has_next %}
+	                  <a href="?page={{ emails.next_page_number }}">next |</a>
+	                  <a href="?page={{ emails.paginator.num_pages }}">last &raquo;</a>
+	              {% endif %}
+	            </span>
+	            </div>
+	        </div>
+		</div>
+	</div>
+</section>
+
 		<!-- <span style="background-color:red">ORG</span>       
 		<span style="background-color:orange">CARDINAL</span>
 		<span style="background-color:deeppink">DATE,</span>

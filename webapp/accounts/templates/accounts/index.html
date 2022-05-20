@@ -130,10 +130,14 @@
 	                	<!-- <img src="{% static 'accounts/imgs/parseicon.avif' %}" class="avatar" alt="MailEx Icon"> -->
 	                	<div class="des">
 	                		<ol class="list-group">
-								<li class="list-group-item list-group-item-secondary">Register on our Website. <a href="{% url 'signup' %}">Here.</a></li>
-								<li class="list-group-item list-group-item-secondary">Once registered, <a href="{% url 'signin' %}">login</a> to the website using your registered email and password.</li>
-								<li class="list-group-item list-group-item-secondary">Enable automatic forwarding of your emails to the MailEx email : MailEx@gmail.com</li>
-								<li class="list-group-item list-group-item-secondary">Select the time and you can chose if you want to download or preview the processed email</li>
+								<li class="list-group-item list-group-item-secondary"><span class="font-weight-bold">Step 1:</span> Register on the MailEx webapp<br>
+                                <span class="font-weight-bold">NOTE:</span> Make sure to register with the same email address whose inbox you want MailEx to process <a href="{% url 'signup' %}">Here.</a></li>
+                                <li class="list-group-item list-group-item-secondary">
+                                    <span class="font-weight-bold">Step 2:</span> Verify your email address using the 6-letter code MailEx sends to your email address.
+                                </li>
+                                <li class="list-group-item list-group-item-secondary"><span class="font-weight-bold">Step 3:</span> Once you register, enable automatic forwarding of emails, to MailEx, on this email address ‘mailex2022@gmail.com’.</li>
+								<li class="list-group-item list-group-item-secondary"><span class="font-weight-bold">Step 4:</span> <a href="{% url 'signin' %}">Login</a> to MailEx.</li>
+								<li class="list-group-item list-group-item-secondary"><span class="font-weight-bold">Step 5:</span> Download the extracted information of your emails in JSON format once MailEx processes them</li>
 							</ol>	
 	                	</div>
 	                </div>
@@ -148,15 +152,15 @@
     	<div class="container">
     		<div class="infos mb-4 mb-md-2">
             <div class="title">
-                <h6 class="subtitle font-weight-normal">Are locking for</h6>
-                <h5>Lorem inpsum</h5>
-                <p class="font-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+               <!--  <h6 class="subtitle font-weight-normal">Are locking for</h6> -->
+                <h5>MailEx</h5>
+                <p class="font-small">An Information Extraction Tool</p>
             </div>
             <div class="socials">
                 <div class="row justify-content-between">
                     <div class="col">
                         <a class="d-block subtitle"><i class="ti-microphone"></i> (123) 456-7890</a>
-                        <a class="d-block subtitle"><i class="ti-email"></i> info@website.com</a>
+                        <a class="d-block subtitle"><i class="ti-email"></i> mailex2022@gmail.com</a>
                     </div>
                     <div class="col">
                         <h6 class="subtitle font-weight-normal mb-1">Social Media</h6>

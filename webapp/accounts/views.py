@@ -159,7 +159,7 @@ def email_preview(request):
 		return redirect('home')
 
 	emails = Emails.objects.filter(from_user={'emailAddress':request.user.email})
-	email_paginator = Paginator(emails, 8)
+	email_paginator = Paginator(emails, 1)
 	page_number = request.GET.get('page')
 	page_obj = email_paginator.get_page(page_number)
 	return render(request=request, template_name="accounts/email_preview.html", context={'emails':page_obj})
@@ -188,9 +188,9 @@ def download_all_emails(request):
 	response = HttpResponse(json.dumps({"data":json_output}), content_type='application/json')
 	response['Content-Disposition'] = f'attachment; filename={filename}'
 	
-	if request.user.totalemails > request.user.downloads:
-		request.user.downloads   = request.user.downloads   + len(json_output)
-		request.user.totalemails = len(processed_emails) if len(processed_emails) is not None else 0
+
+	request.user.downloads   = len(processed_emails)
+	request.user.totalemails = len(processed_emails) if len(processed_emails) is not None else 0
 		
 	request.user.save()
 	return response
@@ -207,7 +207,7 @@ def download_latest_emails(request):
 	totalemails      = len(processed_emails)	
 	latest_emails    = totalemails - request.user.downloads - 1
 
-	if totalemails == request.user.downloads:
+	if totalemails == request.user.downloads or request.user.downloads == 0:
 		return redirect('download_all')
 
 	json_output = []
@@ -226,7 +226,7 @@ def download_latest_emails(request):
 	response['Content-Disposition'] = f'attachment; filename={filename}'
 	
 	if totalemails > latest_emails:
-		request.user.downloads   = request.user.downloads   + len(json_output)
+		request.user.downloads   = len(processed_emails) 
 		request.user.totalemails = len(processed_emails) if len(processed_emails) is not None else 0
 		
 	request.user.save()
