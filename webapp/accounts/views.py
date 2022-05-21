@@ -40,25 +40,25 @@ class SignUpView(generic.View):
 			email    = form.cleaned_data['email']
 			
 			is_valid_email = validate_email(email_address=email)
-			if not is_valid_email:
-				email_error = 'Please enter a valid email' 
-				return render(request, self.template_name, {'form':form, 'email_error':email_error})
+			# if not is_valid_email:
+			# 	email_error = 'Please enter a valid email' 
+			# 	return render(request, self.template_name, {'form':form, 'email_error':email_error})
 
-			else:
-				user = form.save()
-				user.is_active = False
+			# else:
+			user = form.save()
+			user.is_active = False
 
-				user.code = ''.join(random.sample(string.ascii_letters+string.digits, 6))
-				user.save()
+			user.code = ''.join(random.sample(string.ascii_letters+string.digits, 6))
+			user.save()
 
-				subject        = 'Verify your MailEx account'
-				message        = f'Here is your 6-digit verification code: {user.code}'
-				email_from     = settings.EMAIL_HOST_USER
-				recipient_list = [email]
+			subject        = 'Verify your MailEx account'
+			message        = f'Here is your 6-digit verification code: {user.code}'
+			email_from     = settings.EMAIL_HOST_USER
+			recipient_list = [email]
 
-				send_mail(subject, message, email_from, recipient_list)
+			send_mail(subject, message, email_from, recipient_list)
 
-				return redirect('account_verification')
+			return redirect('account_verification')
 		
 		else:
 			return render(request, self.template_name, {'form':form})
