@@ -11744,6 +11744,16 @@ pre .code {
 }
 
 #email-body {
+  overflow:hidden;
+  height:200px;
+}
+
+#email-body:hover {
   overflow-y:scroll;
-  height:300px;
+}
+
+.legend-div {
+  background-color:rgba(241, 250, 251, 0.2);
+  padding:20px;
+  border-radius:15px;
 }

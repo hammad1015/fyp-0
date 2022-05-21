@@ -3,18 +3,17 @@
 {% block content %}
 	<header id="home" class="header">
         <div class="overlay"></div>
-
-        <!-- Any  Messages -->
-		<!-- <div class="row">
-		{% if messages %}
-			{% for message in messages %}
-			    <p class="alert alert-info">{{ message }}</p>
-			{% endfor %}
-		{% endif %}
-		</div> -->
-		<!-- End Messages -->
         <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">  
             <div class="container">
+                <!-- Any  Messages -->
+                <div class="row">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="alert alert-info font-weight-bold">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+                </div>
+                <!-- End Messages -->
                 <div class="carousel-inner">
                 	<div class="carousel-item active">
                         <div class="carousel-caption d-none d-md-block">
@@ -82,7 +81,7 @@
                             <i class="ti-face-smile"></i>
                         </div>
                         <div class="infos-wrapper">
-                            <h4 class="text-primary">Available Everywhere</h4>
+                            <h4 class="text-primary">Easily Accessible</h4>
                             <p>Access your data 24/7 anywhere</p>
                         </div>
                     </div>
@@ -96,8 +95,8 @@
                             <i class="ti-time"></i>
                         </div>
                         <div class="infos-wrapper">
-                            <h4 class="text-primary">Available Everywhere</h4>
-                            <p>Access your data anywhere anytime</p>
+                            <h4 class="text-primary">Easy to Use</h4>
+                            <p>Simple and user friendly design</p>
                         </div>
                     </div>
                     <div class="widget">

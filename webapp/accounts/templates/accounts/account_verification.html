@@ -15,10 +15,9 @@
 
 			{% if messages %}
 				{% for message in messages %}
-				    <p class="alert alert-danger" style="color:white">{{ message }}</p>
+				    <p class="alert alert-danger font-weight-bold" style="color:white">{{ message }}</p>
 				{% endfor %}
 			{% endif %}
-
 			<form method="POST">
 						{% csrf_token %}
 				{% for field in form %}

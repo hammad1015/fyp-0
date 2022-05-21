@@ -12,21 +12,20 @@
 	
 			{% if messages %}
 				{% for message in messages %}
-				    <p class="alert alert-info" style="color:white">{{ message }}</p>
+				    <p class="alert alert-info font-weight-bold">{{ message }}</p>
 				{% endfor %}
 			{% endif %}
 			<form method="POST">
 				{% csrf_token %}
 				
 				{% if email_error %}
-					<div class="alert alert-danger">
+					<div class="alert alert-danger font-weight-bold">
 				        {{ email_error }}
 					</div>
 				{% endif %}
-
 				{% if form.non_field_errors %}
 					{% for error in form.non_field_errors %}
-						<div class="alert alert-danger">
+						<div class="alert alert-danger font-weight-bold">
 				        	{{ error }}
 						</div>
 					{% endfor %}
@@ -42,7 +41,7 @@
 
 						{% if field.errors %}
 							{% for error in field.errors %}
-						        <div class="alert alert-danger" style="color:white">
+						        <div class="alert alert-danger font-weight-bold" style="color:white">
 						        	{{ error }}
 								</div>
 							{% endfor %}
